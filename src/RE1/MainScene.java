@@ -4,16 +4,12 @@ import RE1.tools.Camera;
 import RE1.tools.Shader;
 import RE1.tools.Time;
 import org.joml.Vector2f;
-import org.lwjgl.BufferUtils;
-
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class MainScene extends Scene{
+public class MainScene extends Scene {
 
 //    private float[] vArray = {
 //
@@ -30,25 +26,6 @@ public class MainScene extends Scene{
 //           0,1,3
 //
 //   };
-
-    private float[] vArray = {
-
-            //positon                               color
-        0.0f , 0.0f, 0.0f,                   0.0f,0.0f,0.0f,0.0f,//0
-        500.0f , 500.0f, 0.0f,               0.0f,0.0f,0.0f,0.0f,//1
-        500.0f,0.0f,0.0f,                    0.0f,0.0f,0.0f,0.0f,//2
-        0.0f,500.0f,0.0f,                    0.0f,0.0f,0.0f,0.0f//3
-
-    };
-
-    private int[] eArray = {
-
-            0,2,
-            1,3,
-            0,3,
-            2,1
-
-    };
 
     private int vaoID,vboID,eboID;
 
@@ -72,22 +49,12 @@ public class MainScene extends Scene{
         vaoID = glGenVertexArrays();
         glBindVertexArray(vaoID);
 
-        //create float buffer of vertices
-        FloatBuffer vBuffer = BufferUtils.createFloatBuffer(vArray.length);
-        vBuffer.put(vArray).flip();
-
         //creat vbo upload the vBuffer
         vboID=glGenBuffers();
         glBindBuffer(GL_ARRAY_BUFFER,vboID);
-        glBufferData(GL_ARRAY_BUFFER,vBuffer,GL_STATIC_DRAW);
-
-        //create indices and upload
-        IntBuffer eBuffer = BufferUtils.createIntBuffer(eArray.length);
-        eBuffer.put(eArray).flip();
 
         eboID = glGenBuffers();
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER,eboID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER,eBuffer,GL_STATIC_DRAW);
 
         //add the vertex attribute
         int pSize = 3;
@@ -122,7 +89,8 @@ public class MainScene extends Scene{
 
         glLineWidth(10.0f);
 
-        glDrawElements(GL_LINES,eArray.length,GL_UNSIGNED_INT,0);
+        MazeWall mz = new MazeWall();
+        mz.borderWall();
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
